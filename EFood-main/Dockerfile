@@ -5,8 +5,11 @@ FROM openjdk:17-jdk-slim
 WORKDIR /app
 
 # Copy only necessary files for Maven build
-COPY pom.xml mvnw ./
+COPY pom.xml mvnw ./  
 COPY .mvn .mvn
+
+# Grant execution permission to the Maven wrapper script
+RUN chmod +x mvnw
 
 # Resolve dependencies (this step will cache dependencies)
 RUN ./mvnw dependency:resolve
