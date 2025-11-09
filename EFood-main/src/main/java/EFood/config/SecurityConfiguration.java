@@ -61,23 +61,25 @@ public class SecurityConfiguration {
                 return http.build();
         }
 
-        @Bean
-        CorsConfigurationSource corsConfigurationSource() {
-                CorsConfiguration configuration = new CorsConfiguration();
-                configuration.setAllowedOrigins(
-                                List.of("https://localhost:3000","https://e-food-amber.vercel.app"));
-                configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-                configuration.setAllowedHeaders(List.of(
-                                "Authorization",
-                                "Content-Type",
-                                "Accept",
-                                "Cache-Control",
-                                "Content-Disposition",
-                                "Origin"));
-                UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-                configuration.setAllowCredentials(true);
-                source.registerCorsConfiguration("/**", configuration);
-
-                return source;
-        }
+       @Bean
+CorsConfigurationSource corsConfigurationSource() {
+    CorsConfiguration configuration = new CorsConfiguration();
+    
+    configuration.setAllowedOrigins(List.of(
+        "https://e-food-amber.vercel.app", // your frontend
+        "http://localhost:3000"           // for local testing
+    ));
+    
+    configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+    
+    configuration.setAllowedHeaders(List.of("*"));
+    
+    configuration.setExposedHeaders(List.of("Authorization", "Content-Disposition"));
+    
+    configuration.setAllowCredentials(true);
+    
+    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+    source.registerCorsConfiguration("/**", configuration);
+    return source;
+}
 }
